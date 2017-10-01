@@ -9,7 +9,7 @@ import requests
 import json
 import datetime
 
-def get_stop_time(day_time_start):
+def get_stop_time(day_time_start): #gets time and compares it to start time
     now = datetime.datetime.now()
     time_length = now - day_time_start
 
@@ -24,13 +24,13 @@ def get_stop_time(day_time_start):
     post_info = [day, start, time_length]
     return post_info
 
-def convert_month(num):
+def convert_month(num): #input month number output month
     month = ["THE 0TH MONTH", "January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"]
 
     return month[num]
 
-def post_to_database(day, start, time_length):
+def post_to_database(day, start, time_length): #posts to database
     day = str(day)
     daysave = day
 
@@ -63,7 +63,7 @@ def parse_data(): #sensor number
         i += 1
         time.sleep(.001)
 
-    for x in data1:
+    for x in data1: #adding data together
         x = int(x)
         avg_data1 = avg_data1 + x
     for x in data2:
@@ -75,7 +75,7 @@ def parse_data(): #sensor number
     for x in data4:
         x = int(x)
         avg_data4 = avg_data4 + x
-    avg_data.append(avg_data1 / len(data1))
+    avg_data.append(avg_data1 / len(data1)) #averaging data
     avg_data.append(avg_data2 / len(data2))
     avg_data.append(avg_data3 / len(data3))
     avg_data.append(avg_data4 / len(data4))
@@ -100,12 +100,12 @@ def main():
         data_new = parse_data() #data from sensors
 
         #region 1
-        if ((data_new[0] - data_old[0]) > DIFF): #20 is the difference in distance, so if theres a jump.
+        if ((data_new[0] - data_old[0]) > DIFF): #100 is the difference in distance, so if theres a jump.
             region1  = not region1
         data_old[0] = data_new[0]
 
         #region 2
-        if ((data_new[1] - data_old[1]) > DIFF): #20 is the difference in distance, so if theres a jump.
+        if ((data_new[1] - data_old[1]) > DIFF):
             if (region1):
                 region2 += 1
                 region1 = not region1
@@ -115,7 +115,7 @@ def main():
         data_old[1] = data_new[1]
 
         #region 3
-        if ((data_new[2] - data_old[2]) > DIFF): #20 is the difference in distance, so if theres a jump.
+        if ((data_new[2] - data_old[2]) > DIFF): 
             if (region3):
                 region2 += 1
                 region3 = not region3
@@ -125,7 +125,7 @@ def main():
         data_old[2] = data_new[2]
 
         #region 4
-        if ((data_new[3] - data_old[3]) > DIFF): #20 is the difference in distance, so if theres a jump.
+        if ((data_new[3] - data_old[3]) > DIFF): 
             region3  = not region3
         data_old[3] = data_new[3]
 
